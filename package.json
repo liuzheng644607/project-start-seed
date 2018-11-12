@@ -1,0 +1,29 @@
+{
+  "name": "project-start-seed",
+  "version": "0.0.0",
+  "engines": {
+    "node": ">=8.9.0"
+  },
+  "description": "react+typescript配置项目",
+  "main": "index.js",
+  "scripts": {
+    "test": ""
+  },
+  "keywords": [
+    "react",
+    "typescript"
+  ],
+  "author": "lyan",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^16.6.1",
+    "react-dom": "^16.6.1"
+  },
+  "devDependencies": {
+    "awesome-typescript-loader": "^5.2.1",
+    "source-map-loader": "^0.2.4",
+    "tslint": "^5.11.0",
+    "tslint-react": "^3.6.0",
+    "typescript": "^3.1.6"
+  }
+}
