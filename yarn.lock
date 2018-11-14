@@ -42,6 +42,10 @@ assign-symbols@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/assign-symbols/-/assign-symbols-1.0.0.tgz#59667f41fadd4f20ccbc2bb96b8d4f7f78ec0367"
 
+async@1.5.0:
+  version "1.5.0"
+  resolved "http://registry.npmjs.org/async/-/async-1.5.0.tgz#2796642723573859565633fc6274444bee2f8ce3"
+
 async@^2.5.0:
   version "2.6.1"
   resolved "https://registry.npmjs.org/async/-/async-2.6.1.tgz#b245a23ca71930044ec53fa46aa00a3e87c6a610"
@@ -383,6 +387,15 @@ graceful-fs@^4.1.2:
   version "4.1.15"
   resolved "https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.1.15.tgz#ffb703e1066e8a0eeaa4c8b80ba9253eeefbfb00"
 
+happypack@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.npmjs.org/happypack/-/happypack-5.0.0.tgz#59606b6161acfbd69e99072e5c63f5d165e48b0e"
+  dependencies:
+    async "1.5.0"
+    json-stringify-safe "5.0.1"
+    loader-utils "1.1.0"
+    serialize-error "^2.1.0"
+
 has-ansi@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/has-ansi/-/has-ansi-2.0.0.tgz#34f5049ce1ecdf2b0649af3ef24e45ed35416d91"
@@ -534,6 +547,10 @@ js-yaml@^3.7.0:
     argparse "^1.0.7"
     esprima "^4.0.0"
 
+json-stringify-safe@5.0.1:
+  version "5.0.1"
+  resolved "https://registry.npmjs.org/json-stringify-safe/-/json-stringify-safe-5.0.1.tgz#1296a2d58fd45f19a0f6ce01d65701e2c735b6eb"
+
 json5@^0.5.0:
   version "0.5.1"
   resolved "http://registry.npmjs.org/json5/-/json5-0.5.1.tgz#1eade7acc012034ad84e2396767ead9fa5495821"
@@ -558,7 +575,7 @@ kind-of@^6.0.0, kind-of@^6.0.2:
   version "6.0.2"
   resolved "https://registry.npmjs.org/kind-of/-/kind-of-6.0.2.tgz#01146b36a6218e64e58f3a8d66de5d7fc6f6d051"
 
-loader-utils@^1.1.0:
+loader-utils@1.1.0, loader-utils@^1.1.0:
   version "1.1.0"
   resolved "https://registry.npmjs.org/loader-utils/-/loader-utils-1.1.0.tgz#c98aef488bcceda2ffb5e2de646d6a754429f5cd"
   dependencies:
@@ -824,6 +841,10 @@ scheduler@^0.11.0:
 semver@^5.3.0:
   version "5.6.0"
   resolved "https://registry.npmjs.org/semver/-/semver-5.6.0.tgz#7e74256fbaa49c75aa7c7a205cc22799cac80004"
+
+serialize-error@^2.1.0:
+  version "2.1.0"
+  resolved "http://registry.npmjs.org/serialize-error/-/serialize-error-2.1.0.tgz#50b679d5635cdf84667bdc8e59af4e5b81d5f60a"
 
 set-value@^0.4.3:
   version "0.4.3"

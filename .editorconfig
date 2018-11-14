@@ -17,14 +17,17 @@ indent_size = 4
 [*.js]
 indent_style = space
 indent_size = 2
+quote_type = single
 
 [*.ts]
 indent_style = space
 indent_size = 2
+quote_type = single
 
 [*.tsx]
 indent_style = space
 indent_size = 2
+quote_type = single
  
 # Matches the exact files either package.json or .travis.yml
 [{package.json,.travis.yml}]
