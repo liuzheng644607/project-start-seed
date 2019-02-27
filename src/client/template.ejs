@@ -1,0 +1,38 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <script>
+  // rem 自动缩放
+(function() {
+  var remBase = 100;
+
+  // 更新 html.fontSize
+  function setRem() {
+    var width = window.innerWidth;
+    var fontSize = remBase;
+    if (width < 425) {
+      fontSize = (width / 375) * remBase;
+    }
+    document.documentElement.style.fontSize = fontSize + 'px';
+  }
+  setRem();
+})();</script>
+  <!--该页面所依赖的其它剩下的 CSS 注入的地方-->
+  <!--STYLE-->
+</head>
+
+<body>
+  <div id="app">
+  </div>
+  <!--外联引入 KNB-->
+
+  <!--该页面所依赖的其它剩下的 JavaScript 注入的地方-->
+  <!--SCRIPT-->
+  <% if (isDev) { %>
+    <script src="http://localhost:8097/webpack-dev-server.js?_dev"></script>
+  <% } %>
+</body>
+
+</html>

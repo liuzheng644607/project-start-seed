@@ -1,0 +1,9 @@
+.login {
+  text-align: center;
+
+  .text {
+    color: red;
+
+    font-size: 100px;
+  }
+}

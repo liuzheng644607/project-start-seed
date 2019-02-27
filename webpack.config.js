@@ -5,12 +5,16 @@ const SourceMapDevToolPlugin = require('webpack/lib/SourceMapDevToolPlugin');
 const DefinePlugin = require('webpack/lib/DefinePlugin');
 const ModuleConcatenationPlugin = require('webpack/lib/optimize/ModuleConcatenationPlugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin');
+const htmlWebpackPlugin = require('html-webpack-plugin')
 const isProd = process.env.NODE_ENV !== 'development';
 const outputPath = './static';
 const publicPath = '/';
 
 module.exports = {
-  entry: '',
+  entry: {
+    base: './src/client/app.tsx'
+  },
   output: {
     filename: '[name]_[chunkhash:8].js',
     path: Path.resolve(__dirname, outputPath),
@@ -41,7 +45,7 @@ module.exports = {
       {
         test: /\.tsx?$/,
         use: ['happypack/loader?id=ts'],
-        include: [Path.resolve('src/client'), Path.resolve('src/common')]
+        include: [Path.resolve('src/client')]
       },
       {
         test: /\.css/,
@@ -73,6 +77,12 @@ module.exports = {
     ]
   },
   plugins: [
+    new htmlWebpackPlugin({
+      filename: 'index.html',
+      template: './src/client/template.ejs',
+      inject: true,
+      minify: true
+    }),
     new CommonsChunkPlugin({
       chunks: ['common', 'base'],
       name: 'base'
