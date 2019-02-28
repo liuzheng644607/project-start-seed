@@ -12,6 +12,7 @@
     "start:client": "NODE_ENV=development webpack-dev-server --config ./config/webpack.dev.js -w",
     "build:client": "rm -rf static && webpack --config ./config/webpack.prod.js",
     "build:server": "tsc -p src/server",
+    "build:route": "route-type -i ./src/server/route -o ./src/server/declaration -m @mtfe/http-rpc-client",
     "test": ""
   },
   "keywords": [
@@ -35,6 +36,7 @@
     "@types/koa-router": "^7.0.40",
     "@types/koa-static": "^4.0.1",
     "@types/react-css-modules": "^4.6.2",
+    "axios": "^0.18.0",
     "config": "^3.0.1",
     "ejs": "^2.6.1",
     "http-proxy": "^1.17.0",
@@ -53,6 +55,7 @@
     "react": "^16.6.1",
     "react-css-modules": "^4.7.9",
     "react-dom": "^16.6.1",
+    "route-type-compiler": "^1.2.6",
     "typescript": "^3.3.3333",
     "typings-for-css-modules-loader": "^1.7.0",
     "webpack": "^4.29.5",
