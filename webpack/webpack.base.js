@@ -1,7 +1,6 @@
 const Path = require('path');
 const HappyPack = require('happypack');
 const SourceMapDevToolPlugin = require('webpack/lib/SourceMapDevToolPlugin');
-const DefinePlugin = require('webpack/lib/DefinePlugin');
 const fs = require('fs');
 const ejs = require('ejs');
 const config = require('config');

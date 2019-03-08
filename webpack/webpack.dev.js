@@ -1,6 +1,5 @@
 const Path = require('path');
 const HappyPack = require('happypack');
-const SourceMapDevToolPlugin = require('webpack/lib/SourceMapDevToolPlugin');
 const merge = require('webpack-merge');
 const baseWebpackConfig = require('./webpack.base');
 const config = require('config');
