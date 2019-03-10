@@ -13,8 +13,7 @@ const publicPath = '/';
 module.exports = {
   devtool: false,
   entry: {
-    app: './src/client/app.tsx',
-    base: './src/client/base.ts',
+    app: './src/client/app.tsx'
   },
   output: {
     filename: '[name]_[chunkhash:8].js',
