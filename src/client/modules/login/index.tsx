@@ -7,7 +7,7 @@ export default class extends React.Component {
   render() {
     return (
       <div styleName="login">
-        <p styleName="text">Login</p>
+        <p styleName="text">测试</p>
       </div>
     );
   }

@@ -7,3 +7,4 @@ static/
 src/server/**/*.js
 src/server/**/*.js.map
 src/client/**/*.js
+*.zip
