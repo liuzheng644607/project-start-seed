@@ -8,10 +8,12 @@
   "main": "index.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development & npm run clean & webpack-dev-server --config ./webpack/webpack.dev.js & npm run build:server -- -w & NODE_ENV=development nodemon -w 'src/server' src/server/index.js",
-    "start": "node ./src/server/index.js",
+    "start": "cross-env NODE_ENV=production forever start ./src/server/index.js",
     "start:client": "cross-env NODE_ENV=development webpack-dev-server --config ./webpack/webpack.dev.js -w",
     "build:client": "rm -rf static && webpack --config ./webpack/webpack.prod.js",
     "build:server": "tsc -p src/server",
+    "stop:all": "forever stopall",
+    "deploy": "bash ./deploy.sh",
     "clean": "rimraf 'src/server/**/*.{js,map}'",
     "test": ""
   },
@@ -31,6 +33,7 @@
     "axios": "^0.18.0",
     "config": "^3.0.1",
     "cross-env": "^5.2.0",
+    "forever": "^0.15.3",
     "koa": "^2.7.0",
     "koa-bodyparser": "^4.2.1",
     "koa-favicon": "^2.0.1",

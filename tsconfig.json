@@ -19,6 +19,7 @@
     "paths": {
       "@root/*": ["./*"],
       "@src/*": ["./src/*"],
+      "@assets": ["./src/client/assets/*"],
       "@client/*": ["./src/client/*"],
       "@server/*": ["./src/server/*"],
     },

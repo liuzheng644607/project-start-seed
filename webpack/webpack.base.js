@@ -27,6 +27,7 @@ module.exports = {
       '@src': Path.resolve(root, './src'),
       '@client': Path.resolve(root, './src/client'),
       '@server': Path.resolve(root, './src/server'),
+      '@assets': Path.resolve(root, './src/client/assets'),
       '@utils': Path.resolve(root, './src/client/utils'),
       react: Path.resolve(
         root,
@@ -69,7 +70,7 @@ module.exports = {
       },
       {
         test: /\.(png|jpg|jpeg|gif)$/,
-        use: [`file-loader?name=[name]_[hash:8].[ext]`]
+        use: [`url-loader?limit=1024&name=[name]_[hash:8].[ext]`]
       },
       {
         test: /\.svg$/,

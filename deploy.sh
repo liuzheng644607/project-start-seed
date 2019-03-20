@@ -14,15 +14,14 @@ ssh -tt root@draw.lyan.me -p 29687 << ssh
 PACKNAME=pack.zip
 APP_DIR=/var/apps/com.draw.lyan
 ZIP_TMP_PKG=/var/apps/tmpzip/$PACKNAME
-# 停止服务
-forever stopall
 
 # 删除之前的代码
-rm -rf $APP_DIR/**
-rm -rf $APP_DIR/.*
+rm -rf /var/apps/com.draw.lyan/**
 
 # 移动新包到目标目录
 cp /var/apps/tmpzip/pack.zip $APP_DIR
+
+rm -rf /var/apps/tmpzip/pack.zip
 
 cd $APP_DIR
 # 解压
@@ -33,7 +32,8 @@ npm i
 npm run build:client
 npm run build:server
 
-forever start ./src/server/index.js
+npm run stop:all
+npm run start
 
 curl localhost:8080/api/monitor/alive
 

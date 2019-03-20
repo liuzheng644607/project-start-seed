@@ -7,7 +7,7 @@ export default class extends React.Component {
   render() {
     return (
       <div styleName="login">
-        <p styleName="text">测试</p>
+        <img src={require('@assets/img/kangna.gif')}/>
       </div>
     );
   }
