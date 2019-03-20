@@ -9,32 +9,47 @@ scp -r -P 29687 $PACKNAME root@draw.lyan.me:$ZIP_TMP
 
 rm -rf $PACKNAME
 
-ssh -tt root@draw.lyan.me -p 29687 << ssh
+ssh -tt root@draw.lyan.me -p 29687 << eeooff
 
 PACKNAME=pack.zip
 APP_DIR=/var/apps/com.draw.lyan
 ZIP_TMP_PKG=/var/apps/tmpzip/$PACKNAME
 
-# 删除之前的代码
-rm -rf /var/apps/com.draw.lyan/**
+cd /var/apps/tmpzip
 
-# 移动新包到目标目录
-cp /var/apps/tmpzip/pack.zip $APP_DIR
+rm -rf ./test
 
-rm -rf /var/apps/tmpzip/pack.zip
+mkdir test
 
-cd $APP_DIR
-# 解压
-unzip $PACKNAME > /dev/null 2>&1
+unzip $PACKNAME -d ./test
+
+cd test
 
 npm i
 
 npm run build:client
 npm run build:server
 
+
+# 删除之前的代码
+rm -rf /var/apps/com.draw.lyan/*
+
+# 移动新包到目标目录
+cp -rf /var/apps/tmpzip/test/* $APP_DIR
+
+rm -rf /var/apps/tmpzip/pack.zip
+
+cd $APP_DIR
+
 npm run stop:all
 npm run start
+
+sleep 3
 
 curl localhost:8080/api/monitor/alive
 
 exit
+
+eeooff
+
+echo '部署完成'
