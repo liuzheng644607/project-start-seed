@@ -1,10 +1,7 @@
 import { Context } from 'koa';
 import { EventEmitter } from 'events';
 import { PassThrough } from 'stream';
-import * as cors from 'koa2-cors';
 import { GET, ALL } from '@server/decorator/router';
-
-const dispathcher = new EventEmitter();
 
 export default class {
   @GET('/api/hello')
@@ -15,15 +12,7 @@ export default class {
     };
   }
 
-  @ALL('/api/nowTime', cors({
-    origin: (ctx: Context) => {
-      if (ctx.hostname.includes('lyan.me')) {
-        return ctx.origin;
-      }
-      return false;
-    },
-  }))
-
+  @ALL('/api/nowTime')
   nowTime(ctx: Context) {
     ctx.res.writeHead(200, {
       'Content-Type': 'text/event-stream',
@@ -31,6 +20,7 @@ export default class {
       'Connection': 'keep-alive'
     });
 
+    const dispathcher = new EventEmitter();
     const stream = new PassThrough();
     let timer: NodeJS.Timeout | null = null;
     const fn = (data: Object, event: string) => {
