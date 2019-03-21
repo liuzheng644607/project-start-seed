@@ -30,6 +30,7 @@
   "author": "lyan",
   "license": "MIT",
   "dependencies": {
+    "@types/koa2-cors": "^2.0.1",
     "axios": "^0.18.0",
     "config": "^3.0.1",
     "cross-env": "^5.2.0",
@@ -39,6 +40,7 @@
     "koa-favicon": "^2.0.1",
     "koa-router": "^7.4.0",
     "koa-static": "^5.0.0",
+    "koa2-cors": "^2.0.6",
     "mobx": "^5.9.0",
     "mobx-react": "^5.4.3",
     "module-alias": "^2.2.0",
