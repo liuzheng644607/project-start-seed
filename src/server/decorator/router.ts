@@ -1,6 +1,6 @@
 import { Context } from 'koa';
+import * as assert from 'assert';
 import * as Router from 'koa-router';
-import * as pathToRegexp from 'path-to-regexp';
 
 type Middleware = Router.IMiddleware;
 
@@ -10,89 +10,87 @@ export enum RequestMethod {
   DELETE = 'delete',
   ALL = 'all',
   PUT = 'put',
+  HEAD = 'head',
+  PATCH = 'patch',
 }
 
-type Method = 'get' | 'post' | 'put' | 'delete' | 'all';
+// tslint:disable-next-line:no-any
+const methodList = Object.keys(RequestMethod).map((k: any) => RequestMethod[k]);
 
-export interface Route {
-  method: Method;
-  url: string;
-  fn: (ctx: Context, next: Function) => void;
-  regexp: RegExp;
-  name: string;
-  urlKeys: pathToRegexp.Key[];
-  middlewares: Middleware[];
-}
+type Method = 'get' | 'post' | 'put' | 'delete' | 'all' | 'head' | 'patch';
 
-const targetRoutesMap: Map<Object, Route[]> = new Map();
-const instanceCache = new Map();
-const routes: Route[] = [];
+const rootRouter = new Router();
 
-export function route(method: Method, url: string | string[], middlewares: Middleware[] | Middleware = []) {
+export function route(url: string | string[],
+                      method?: Method,
+                      // tslint:disable-next-line:no-any
+                      middlewares: Middleware[] | Middleware = []): any {
   // tslint:disable-next-line:no-any
-  return (target: any, name: string) => {
-    let instance = instanceCache.get(target);
-    if (!instance) {
-      // 实例化路由 controller
-      instance = new target.constructor();
-      instanceCache.set(target, instance);
-    }
+  return (target: any, name: string, descriptor?: any) => {
 
-    if (!Array.isArray(url)) {
-      url = [url];
-    }
+    const midws = Array.isArray(middlewares) ? middlewares : [middlewares];
 
-    url.forEach((u) => {
-      const urlKeys: pathToRegexp.Key[] = [];
+    /**
+     * 装饰类
+     */
+    if (typeof target === 'function' && name === undefined  && descriptor === undefined) {
+      assert(!method, '@route 装饰Class时，不能有method 参数' );
 
-      const routeInfo = {
-        method,
-        url: u,
-        fn: async (ctx: Context, next: Function) => {
-          const result = await instance[name].call(instance, ctx, next);
-          ctx.body = ctx.body || result;
-        },
-        regexp: pathToRegexp(u, urlKeys),
-        name,
-        urlKeys,
-        middlewares: Array.isArray(middlewares) ? middlewares : [middlewares],
-      };
-
-      // 将路由信息和对应的 Controller 关联起来
-      let targetRoutes = targetRoutesMap.get(target.constructor);
-      if (!targetRoutes) {
-        targetRoutes = [];
+      /**
+       * 我们将router绑定在 原型上，方便访问
+       */
+      if (!target.prototype.router) {
+        target.prototype.router = new Router();
       }
-      targetRoutes.push(routeInfo);
-      targetRoutesMap.set(target.constructor, targetRoutes);
+      /**
+       * 仅仅设置Controller 前缀
+       */
+      target.prototype.router.prefix(url);
 
-      routes.push(routeInfo);
+      /**
+       * 使得当前Controller 可以执行一些公共的中间件
+       */
+      if (middlewares.length > 0) {
+        target.prototype.router.use(...midws);
+      }
+      return;
+    }
+
+    /**
+     * 装饰方法
+     */
+    if (!target.router) {
+      target.router = new Router();
+    }
+
+    if (!method) {
+      method = 'get';
+    }
+
+    assert(!!target.router[method], `第二个参数只能是如下值之一 ${methodList}`);
+    assert(typeof target[name] === 'function', `@route 只能装饰Class 或者 方法`);
+
+    /**
+     * 使用router
+     */
+    target.router[method](url, ...midws, async (ctx: Context, next: Function) => {
+      /**
+       * 执行原型方法
+       */
+      const result = await descriptor.value(ctx, next);
+      ctx.body = result;
     });
+
+    /**
+     * 将所有被装饰的路由挂载到rootRouter，为了暴露出去给 koa 使用
+     */
+    rootRouter.use(target.router.routes());
   };
 }
 
-export function setRouter(router: Router) {
-  routes.forEach((r) => {
-    router[r.method](r.url, ...r.middlewares, r.fn);
-  });
-}
-
-export function GET(url: string | string[], middlewares: Middleware[] | Middleware = []) {
-  return route(RequestMethod.GET, url, middlewares);
-}
-
-export function POST(url: string | string[], middlewares: Middleware[] | Middleware = []) {
-  return route(RequestMethod.GET, url, middlewares);
-}
-
-export function DELETE(url: string | string[], middlewares: Middleware[] | Middleware = []) {
-  return route(RequestMethod.DELETE, url, middlewares);
-}
-
-export function PUT(url: string | string[], middlewares: Middleware[] | Middleware = []) {
-  return route(RequestMethod.PUT, url, middlewares);
-}
-
-export function ALL(url: string | string[], middlewares: Middleware[] | Middleware = []) {
-  return route(RequestMethod.ALL, url, middlewares);
+/**
+ * 暴露router给koa使用
+ */
+export function getRouter() {
+  return rootRouter;
 }

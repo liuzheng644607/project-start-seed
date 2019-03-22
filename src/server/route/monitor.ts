@@ -1,10 +1,9 @@
-import { Context } from 'koa';
-import { GET } from '@server/decorator/router';
+import { route } from '@server/decorator/router';
 
+@route('/api/monitor')
 export default class {
-  @GET('/api/monitor/alive')
-  hello(ctx: Context) {
-    console.log(ctx);
+  @route('/alive')
+  monitor() {
     return {
       data: true,
       message: '成功'
