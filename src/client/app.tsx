@@ -1,14 +1,17 @@
 import * as React from 'react';
 import { render } from 'react-dom';
-import Login from './modules/login';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import Home from './modules/home';
+import ChatRoom from './modules/chat';
 import './app.css';
 
-class App extends React.Component {
-  render() {
-    return (
-      <Login />
-    );
-  }
+function App() {
+  return (
+    <Router>
+      <Route path="/" exact component={Home} />
+      <Route path="/chat-room" component={ChatRoom} />
+    </Router>
+  );
 }
 
 render(<App />, document.getElementById('app'));

@@ -5,9 +5,12 @@ import { route, } from '@server/decorator/router';
 @route('/api')
 export default class {
   @route('/hello')
-  hello() {
+  async hello(ctx: Context) {
+    const userInfo = await ctx.service.user.getUserInfo();
+    const orderInfo = await ctx.service.order.findOrder.findOrder();
     return {
-      data: 'hay!'
+      data: userInfo,
+      orderInfo,
     };
   }
 

@@ -26,7 +26,7 @@ export function route(url: string | string[],
                       // tslint:disable-next-line:no-any
                       middlewares: Middleware[] | Middleware = []): any {
   // tslint:disable-next-line:no-any
-  return (target: any, name: string, descriptor?: any) => {
+  return (target: any, name: string, descriptor?: PropertyDescriptor) => {
 
     const midws = Array.isArray(middlewares) ? middlewares : [middlewares];
 
@@ -74,11 +74,15 @@ export function route(url: string | string[],
      * 使用router
      */
     target.router[method](url, ...midws, async (ctx: Context, next: Function) => {
+      if (!descriptor) {
+        return;
+      }
+
       /**
        * 执行原型方法
        */
       const result = await descriptor.value(ctx, next);
-      ctx.body = result;
+      ctx.body = ctx.body || result;
     });
 
     /**

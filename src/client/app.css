@@ -1,7 +1,9 @@
-html {
+html, body {
   margin: 0;
+  height: 100%;
+  font-size: 16px;
+}
 
-  body {
-    margin: 0;
-  }
+#app {
+  height: 100%;
 }

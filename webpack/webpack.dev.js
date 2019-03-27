@@ -41,6 +41,8 @@ module.exports = merge(baseWebpackConfig, {
     host: '0.0.0.0',
     port: config.get('webpack.port'),
     inline: false,
+    historyApiFallback: true,
+    contentBase: __dirname,
     hot: false,
   }
 });
