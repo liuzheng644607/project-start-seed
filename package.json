@@ -50,7 +50,8 @@
     "react-router-dom": "^5.0.0",
     "socket.io": "^2.2.0",
     "socket.io-client": "^2.2.0",
-    "typescript": "^3.3.3333"
+    "typescript": "^3.3.3333",
+    "xss": "^1.0.6"
   },
   "devDependencies": {
     "@types/config": "^0.0.34",

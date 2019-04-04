@@ -8,14 +8,16 @@ interface IMessage {
   createTime?: number;
 }
 
+// tslint:disable:max-line-length
+
 const roomList = [
-  {id: 0, name: 'React', avatar: '//avatars1.githubusercontent.com/u/11548643?s=460&v=4'},
-  {id: 1, name: 'Angular', avatar: '//avatars1.githubusercontent.com/u/11548643?s=460&v=4'},
-  {id: 2, name: 'Vue', avatar: '//avatars1.githubusercontent.com/u/11548643?s=460&v=4'},
-  {id: 3, name: 'Mobx', avatar: '//avatars1.githubusercontent.com/u/11548643?s=460&v=4'},
-  {id: 4, name: 'Axios', avatar: '//avatars1.githubusercontent.com/u/11548643?s=460&v=4'},
-  {id: 5, name: 'Java', avatar: '//avatars1.githubusercontent.com/u/11548643?s=460&v=4'},
-  {id: 6, name: 'Javascript', avatar: '//avatars1.githubusercontent.com/u/11548643?s=460&v=4'},
+  {id: 0, name: 'React', avatar: '//www.newasp.net/attachment/soft/2015/0729/145032_26578755.png'},
+  {id: 1, name: 'Angular', avatar: '//img.pconline.com.cn/images/upload/upc/tx/pcdlc/1507/10/c0/9582428_9582428_1436519464953.jpg'},
+  {id: 2, name: 'Vue', avatar: '//pic.52112.com/icon/256/20180514/15574/725950.png'},
+  {id: 3, name: 'Mobx', avatar: '//android-artworks.25pp.com/fs08/2016/06/07/7/1_fd125dc92c85b47c78da43debb14c455_con.png'},
+  {id: 4, name: 'Axios', avatar: '//img1.3lian.com/gif/more/11/201205/53eb40701e6e749cde13fe9abc4352c3.jpg'},
+  {id: 5, name: 'Java', avatar: '//img.apk3.com/img2018/5/22/19/2018052260936300.jpg'},
+  {id: 6, name: 'Javascript', avatar: '//img0.sc115.com/uploads/png/110125/20110125140453687.png'},
 ];
 
 export class ChatRoom {
@@ -69,7 +71,7 @@ export class Room {
 
   private onConnection = (socket: SocketIO.Socket) => {
     socket.on('new message', (msg: IMessage) => {
-      this.roomServer.emit('new message', msg);
+      this.roomServer.emit('new message', Object.assign(msg, {createTime: Date.now()}));
     });
   }
 }

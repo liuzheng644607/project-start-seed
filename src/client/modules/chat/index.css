@@ -60,6 +60,15 @@
       margin: 0 15px;
       padding: 10px;
       border-bottom: 1px solid #d6d6d6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      img {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+      }
     }
   }
 
@@ -108,7 +117,7 @@
 
       .bubble {
         max-width: 500px;
-        min-height: 1em;
+        min-height: 40px;
         display: inline-block;
         vertical-align: top;
         position: relative;
@@ -120,14 +129,18 @@
 
         .plain {
           padding: 9px 13px;
+          line-height: 1.6;
+          word-break: break-word;
         }
 
         &::before {
           position: absolute;
           right: 100%;
-          top: 14px;
           border: 6px solid transparent;
           content: " ";
+          top: 10px;
+          border-right-color: #fff;
+          border-right-width: 4px;
         }
       }
     }
@@ -156,6 +169,11 @@
 
         &::before {
           left: 100%;
+          top: 14px;
+          border-left-color: #b2e281;
+          border-left-width: 4px;
+          border-right-color: transparent;
+          border-right-width: 0;
         }
       }
     }
@@ -171,10 +189,16 @@
     margin-right: 15px;
   }
 
-  .edit-msg {
+  .edit-wrap {
     height: 100px;
     padding: 15px;
+    overflow: hidden;
+  }
+
+  .edit-msg {
     outline: none;
+    height: 100px;
+    overflow-y: scroll;
   }
 
   &-item {
@@ -209,5 +233,91 @@
     }
   }
 
+  .action {
+    text-align: right;
+  }
 
+  .btn-send {
+    text-decoration: none;
+    background-color: #fff;
+    color: #222;
+    display: inline-block;
+    border: 1px solid #c1c1c1;
+    border-radius: 4px;
+    padding: 3px 30px;
+    font-size: 14px;
+
+    &:hover {
+      background-color: #f8f8f8;
+    }
+  }
+}
+
+
+.welcome {
+  padding: 100px 50px;
+
+  .title {
+    font-size: 24px;
+    padding: 20px;
+    color: #fff;
+  }
+
+  .confirm-name {
+    padding: 30px;
+    margin-top: 80px;
+
+    a {
+      text-decoration: none;
+      padding: 15px 40px;
+      border: 1px solid #b2e281;
+      color: #b2e281;
+      border-radius: 2px;
+    }
+  }
+
+  .input-wrap {
+    text-align: center;
+
+    input {
+      height: 40px;
+      line-height: 40px;
+      font-size: 32px;
+      background: transparent;
+      outline: none;
+      border: none;
+      border-bottom: 1px solid #fff;
+      text-align: center;
+      color: #fff
+    }
+
+    .avatar-wrap {
+      display: inline-block;
+      margin-right: 20px;
+      position: relative;
+
+      input {
+        display: none;
+      }
+
+      input:checked {
+        & + img {
+          border-color: #b2e281;
+        }
+      }
+    }
+
+    .avatar-list {
+      margin-top: 40px;
+
+      img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border-width: 2px;
+        border-style: solid;
+        border-color: transparent;
+      }
+    }
+  }
 }

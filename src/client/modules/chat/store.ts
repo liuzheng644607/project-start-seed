@@ -1,5 +1,7 @@
-import { observable, action } from 'mobx';
+import { observable, action, computed } from 'mobx';
 import * as SocketClient from 'socket.io-client';
+
+const userKey = 'localUserInfo';
 
 export interface Room {
   id: number;
@@ -16,10 +18,16 @@ export interface UserInfo {
 export interface IMessage {
   userInfo?: UserInfo;
   message: string;
+  createTime?: number;
 }
 
 export class ChatStore {
-  constructor() {
+
+  initSocket() {
+    if (this.socket) {
+      return;
+    }
+    this.socket = SocketClient('/chat-room');
     this.socket
       .on('connect', () => {
         this.socket.emit('event', 'afsdfsd');
@@ -33,23 +41,18 @@ export class ChatStore {
       });
   }
 
+  @computed
   get userInfo() {
-    const userKey = 'localUserInfo';
-    let userInfo = localStorage.getItem(userKey);
+
+    const userInfo = localStorage.getItem(userKey);
     if (userInfo) {
       return JSON.parse(userInfo);
     }
-    const uuid = 'uuid_' + Math.random().toString(16).slice(2);
-    const info = {
-      userId: uuid
-    };
-    userInfo = JSON.stringify(info);
-    localStorage.setItem(userKey, userInfo);
-
-    return userInfo;
   }
 
-  socket = SocketClient('/chat-room');
+  newMessageCallbacks: Function[] = [];
+
+  socket!: SocketIOClient.Socket;
 
   socketMap: Map<number, SocketIOClient.Socket> = new Map();
 
@@ -61,6 +64,16 @@ export class ChatStore {
 
   @observable
   activeRoom: Room | null = null;
+
+  @computed
+  get currentMessageList(): IMessage[] {
+    let id = -1;
+    if (this.activeRoom) {
+      id = this.activeRoom.id;
+    }
+    this.newMessageCallbacks.forEach((item) => item());
+    return this.messageMap.get(id) || [];
+  }
 
   @action
   refreshRoomList(list: Room[]) {
@@ -89,6 +102,8 @@ export class ChatStore {
           messageList = [];
         }
         messageList.push(data);
+        // 最多100
+        messageList = messageList.slice(messageList.length - 100);
         this.messageMap.set(id, messageList);
       });
       this.socketMap.set(id, roomSocket);
@@ -106,6 +121,21 @@ export class ChatStore {
       message,
       userInfo: this.userInfo,
     });
+  }
+
+  saveUser(v: {nickName: string, avatar: string}) {
+    const uuid = 'uuid_' + Math.random().toString(16).slice(2);
+    const info = {
+      userId: uuid,
+      ...v,
+    };
+
+    const userInfo = JSON.stringify(info);
+    localStorage.setItem(userKey, userInfo);
+  }
+
+  onMessageRefresh(cbk: Function) {
+    this.newMessageCallbacks.push(cbk);
   }
 }
 
