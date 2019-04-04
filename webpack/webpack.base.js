@@ -31,11 +31,11 @@ module.exports = {
       '@utils': Path.resolve(root, './src/client/utils'),
       react: Path.resolve(
         root,
-        `./node_modules/react/umd/react.development.js`
+        `./node_modules/react/umd/react.production.min.js`
       ),
       'react-dom': Path.resolve(
         root,
-        `./node_modules/react-dom/umd/react-dom.development.js`
+        `./node_modules/react-dom/umd/react-dom.production.min.js`
       ),
     }
   },

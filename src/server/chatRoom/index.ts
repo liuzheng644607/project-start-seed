@@ -11,13 +11,13 @@ interface IMessage {
 // tslint:disable:max-line-length
 
 const roomList = [
-  {id: 0, name: 'React', avatar: '//www.newasp.net/attachment/soft/2015/0729/145032_26578755.png'},
-  {id: 1, name: 'Angular', avatar: '//img.pconline.com.cn/images/upload/upc/tx/pcdlc/1507/10/c0/9582428_9582428_1436519464953.jpg'},
-  {id: 2, name: 'Vue', avatar: '//pic.52112.com/icon/256/20180514/15574/725950.png'},
-  {id: 3, name: 'Mobx', avatar: '//android-artworks.25pp.com/fs08/2016/06/07/7/1_fd125dc92c85b47c78da43debb14c455_con.png'},
-  {id: 4, name: 'Axios', avatar: '//img1.3lian.com/gif/more/11/201205/53eb40701e6e749cde13fe9abc4352c3.jpg'},
-  {id: 5, name: 'Java', avatar: '//img.apk3.com/img2018/5/22/19/2018052260936300.jpg'},
-  {id: 6, name: 'Javascript', avatar: '//img0.sc115.com/uploads/png/110125/20110125140453687.png'},
+  {id: 0, name: 'React', avatar: '//upload-images.jianshu.io/upload_images/188895-3f031917c4d3e6e5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240'},
+  {id: 1, name: 'Angular', avatar: '//upload-images.jianshu.io/upload_images/188895-fcc2f21344d23c5d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240'},
+  {id: 2, name: 'Vue', avatar: '//upload-images.jianshu.io/upload_images/188895-9bd7f17687e06297.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240'},
+  {id: 3, name: 'Mobx', avatar: '//upload-images.jianshu.io/upload_images/188895-7ec02d155b0f1da9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240'},
+  {id: 4, name: 'Axios', avatar: '//upload-images.jianshu.io/upload_images/188895-1c4ee37d26f9905f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240'},
+  {id: 5, name: 'Java', avatar: '//upload-images.jianshu.io/upload_images/188895-28b511d42c96d3fd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240'},
+  {id: 6, name: 'Javascript', avatar: '//upload-images.jianshu.io/upload_images/188895-c03a472f50f00888.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240'},
 ];
 
 export class ChatRoom {
