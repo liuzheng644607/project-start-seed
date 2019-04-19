@@ -30,7 +30,7 @@ export class ChatStore {
     this.socket = SocketClient('/chat-room');
     this.socket
       .on('connect', () => {
-        this.socket.emit('event', 'afsdfsd');
+        // this.socket.emit('userjoin');
       })
       .on('event', (data: number) => {
         console.log(data);

@@ -12,7 +12,7 @@ module.exports = merge(baseWebpackConfig, {
       {
         test: /\.css/,
         use: ['happypack/loader?id=postcss'],
-        include: [Path.resolve(root, 'src/client')]
+        include: [Path.resolve(root, 'src/client'), Path.resolve(root, 'node_modules')]
       }
     ]
   },

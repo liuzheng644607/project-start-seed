@@ -1,12 +1,16 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import * as xss from 'xss';
+import Popover, { ArrowContainer } from 'react-tiny-popover';
 import CSSModules from '@utils/cssmodules';
+import EmojiBox from './Emoji/Emoji';
 import * as styles from './index.css';
 import ChatStore from './store';
 
 interface IProps {}
-interface IState {}
+interface IState {
+  emojiShow: boolean;
+}
 
 @observer
 @CSSModules(styles)
@@ -25,6 +29,10 @@ export default class extends React.Component<IProps, IState> {
       });
     });
   }
+
+  state = {
+    emojiShow: false,
+  };
 
   refEditBox: HTMLPreElement | null = null;
   refContainer: HTMLDivElement | null = null;
@@ -45,8 +53,33 @@ export default class extends React.Component<IProps, IState> {
     this.refEditBox.innerHTML = '';
   };
 
+  toggleEmoji = (show: boolean = true) => {
+    this.setState({ emojiShow: show });
+  }
+
+  selectEmoji = (src: string) => {
+    this.toggleEmoji(false);
+    if (this.refEditBox) {
+      const img = document.createElement('img');
+      if (document.activeElement !== this.refEditBox) {
+        this.refEditBox.focus();
+      }
+      img.src = src;
+      img.width = 29;
+      img.height = 29;
+      if (window.getSelection) {
+        const sel = window.getSelection();
+        const range = sel.getRangeAt(0);
+        // range.deleteContents();
+        range.insertNode(img);
+        range.collapse(false);
+      }
+    }
+  }
+
   render() {
     const { roomList, activeRoom, currentMessageList } = ChatStore;
+    const { emojiShow } = this.state;
     // tslint:disable-next-line:no-any
     const msgList = currentMessageList;
     return (
@@ -121,10 +154,34 @@ export default class extends React.Component<IProps, IState> {
               </div>
             </div>
             <div styleName="edit-area">
+              <div styleName="tool-box">
+                <Popover
+                  isOpen={emojiShow}
+                  align="start"
+                  onClickOutside={() => this.toggleEmoji(false)}
+                  content={({ position, targetRect, popoverRect }) => (
+                    <ArrowContainer
+                      position={position}
+                      targetRect={targetRect}
+                      popoverRect={popoverRect}
+                      arrowColor={'#fff'}
+                      arrowSize={15}
+                      arrowStyle={{left: 3, bottom: 4}}
+                    >
+                      <EmojiBox
+                        onSelect={(src) => this.selectEmoji(src)}
+                      />
+                    </ArrowContainer>
+                  )}
+                >
+                  <i styleName="emoji" onClick={() => this.toggleEmoji(true)}/>
+                </Popover>
+              </div>
               <div styleName="edit-wrap">
                 <pre
                   styleName="edit-msg"
                   contentEditable
+                  autoFocus
                   ref={c => (this.refEditBox = c)}
                 />
               </div>
@@ -138,6 +195,26 @@ export default class extends React.Component<IProps, IState> {
                 </a>
               </div>
             </div>
+          </div>
+        </div>
+        <div styleName="user-panel">
+          <div styleName="topic-container">
+            <p>学习交流</p>
+          </div>
+          <div styleName="online-container">
+            <div>在线人数：</div>
+            <div styleName="user-list">
+              <div styleName="item">
+                <img src={require('@assets/avatar/1.png')} alt=""/>
+                <span>哈哈</span>
+              </div>
+              <div styleName="item">
+                <img src={require('@assets/avatar/1.png')} alt=""/>
+                <span>哈哈</span>
+              </div>
+            </div>
+          </div>
+          <div styleName="broadcast">
           </div>
         </div>
       </div>

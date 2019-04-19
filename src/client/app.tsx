@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Home from './modules/home';
 import ChatRoom from './modules/chat';
+import 'normalize.css';
 import './app.css';
 
 function App() {
