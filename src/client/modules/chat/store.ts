@@ -1,6 +1,6 @@
 import { observable, action, computed } from 'mobx';
 import * as SocketClient from 'socket.io-client';
-
+import * as Cookies from 'js-cookie';
 const userKey = 'localUserInfo';
 
 export interface Room {
@@ -43,11 +43,8 @@ export class ChatStore {
 
   @computed
   get userInfo() {
-
-    const userInfo = localStorage.getItem(userKey);
-    if (userInfo) {
-      return JSON.parse(userInfo);
-    }
+    const cookieUserInfo = Cookies.getJSON(userKey);
+    return cookieUserInfo;
   }
 
   newMessageCallbacks: Function[] = [];
@@ -58,6 +55,10 @@ export class ChatStore {
 
   @observable
   messageMap: Map<number, IMessage[]> = new Map();
+
+  @observable
+  // tslint:disable-next-line:no-any
+  userListMap: Map<number, any[]> = new Map();
 
   @observable
   roomList: Room[] = [];
@@ -73,6 +74,15 @@ export class ChatStore {
     }
     this.newMessageCallbacks.forEach((item) => item());
     return this.messageMap.get(id) || [];
+  }
+
+  @computed
+  get currentUserList() {
+    let id = -1;
+    if (this.activeRoom) {
+      id = this.activeRoom.id;
+    }
+    return this.userListMap.get(id) || [];
   }
 
   @action
@@ -106,6 +116,15 @@ export class ChatStore {
         messageList = messageList.slice(messageList.length - 100);
         this.messageMap.set(id, messageList);
       });
+      roomSocket.on('connect', () => {
+        if (roomSocket) {
+          roomSocket.emit('user_join_room', this.userInfo);
+        }
+      });
+      roomSocket.on('user_join_room', (data) => {
+        const { userList, user } = data;
+        this.userListMap.set(id, userList);
+      });
       this.socketMap.set(id, roomSocket);
     }
   }
@@ -131,7 +150,7 @@ export class ChatStore {
     };
 
     const userInfo = JSON.stringify(info);
-    localStorage.setItem(userKey, userInfo);
+    Cookies.set(userKey, userInfo);
   }
 
   onMessageRefresh(cbk: Function) {

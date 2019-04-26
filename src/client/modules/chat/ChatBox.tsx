@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import * as xss from 'xss';
+// import * as xss from 'xss';
 import Popover, { ArrowContainer } from 'react-tiny-popover';
 import CSSModules from '@utils/cssmodules';
 import EmojiBox from './Emoji/Emoji';
@@ -37,16 +37,40 @@ export default class extends React.Component<IProps, IState> {
   refEditBox: HTMLPreElement | null = null;
   refContainer: HTMLDivElement | null = null;
 
+  componentDidMount() {
+    document.addEventListener('keyup', this.enter);
+  }
+
+  componentWillMount() {
+    document.removeEventListener('keyup', this.enter);
+  }
+
+  enter = (event: KeyboardEvent) => {
+    if (event.keyCode === 13) {
+      if (event.shiftKey) {
+        return;
+      }
+      this.sendMessage();
+    }
+  }
+
   sendMessage = () => {
     if (!this.refEditBox) {
       return;
     }
 
-    let value = this.refEditBox.innerHTML;
-    value = xss.filterXSS(value, {
-      stripIgnoreTag: false,
-      stripIgnoreTagBody: ['script']
-    });
+    const value = this.refEditBox.innerHTML;
+
+    if (!value) {
+      return;
+    }
+
+    // value = xss.filterXSS(value, {
+    //   stripIgnoreTag: false,
+    //   stripIgnoreTagBody: ['script']
+    // });
+
+    console.log(value);
 
     ChatStore.sendMessage(value);
 
@@ -65,8 +89,8 @@ export default class extends React.Component<IProps, IState> {
         this.refEditBox.focus();
       }
       img.src = src;
-      img.width = 29;
-      img.height = 29;
+      img.style.width = '29px';
+      img.style.height = '29px';
       if (window.getSelection) {
         const sel = window.getSelection();
         const range = sel.getRangeAt(0);
@@ -78,7 +102,7 @@ export default class extends React.Component<IProps, IState> {
   }
 
   render() {
-    const { roomList, activeRoom, currentMessageList } = ChatStore;
+    const { roomList, activeRoom, currentMessageList, currentUserList } = ChatStore;
     const { emojiShow } = this.state;
     // tslint:disable-next-line:no-any
     const msgList = currentMessageList;
@@ -139,10 +163,11 @@ export default class extends React.Component<IProps, IState> {
                           <div
                             styleName="plain"
                             dangerouslySetInnerHTML={{
-                              __html: xss.filterXSS(item.message, {
-                                stripIgnoreTag: true,
-                                stripIgnoreTagBody: ['script']
-                              })
+                              __html: item.message,
+                              // __html: xss.filterXSS(item.message, {
+                              //   stripIgnoreTag: true,
+                              //   stripIgnoreTagBody: ['script']
+                              // })
                             }}
                           />
                         </div>
@@ -202,19 +227,24 @@ export default class extends React.Component<IProps, IState> {
             <p>学习交流</p>
           </div>
           <div styleName="online-container">
-            <div>在线人数：</div>
+            <div>在线人数：{currentUserList.length}</div>
             <div styleName="user-list">
-              <div styleName="item">
-                <img src={require('@assets/avatar/1.png')} alt=""/>
-                <span>哈哈</span>
-              </div>
-              <div styleName="item">
-                <img src={require('@assets/avatar/1.png')} alt=""/>
-                <span>哈哈</span>
-              </div>
+              {currentUserList.map((user, idx) => {
+                return (
+                  <div styleName="item" key={idx}>
+                    <img src={user.avatar} alt=""/>
+                    <span>
+                    {user.nickName}
+                    {user.userId === ChatStore.userInfo.userId ? <span style={{color: 'green'}}>（自己）</span> : null}
+                    </span>
+                  </div>
+                );
+              })}
             </div>
           </div>
           <div styleName="broadcast">
+            {/* <marquee behavior="scroll" direction="up" scrollamount="2">
+            </marquee> */}
           </div>
         </div>
       </div>

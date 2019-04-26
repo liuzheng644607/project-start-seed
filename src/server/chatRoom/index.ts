@@ -1,5 +1,6 @@
 import { Server } from 'net';
 import * as SocketIo from 'socket.io';
+import cookieParser from '@server/utils/cookie-parse';
 interface IMessage {
   nickName: string;
   userId: string;
@@ -19,6 +20,8 @@ const roomList = [
   {id: 5, name: 'Java', avatar: '//upload-images.jianshu.io/upload_images/188895-28b511d42c96d3fd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240'},
   {id: 6, name: 'Javascript', avatar: '//upload-images.jianshu.io/upload_images/188895-c03a472f50f00888.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240'},
 ];
+
+const userKey = 'localUserInfo';
 
 export class ChatRoom {
 
@@ -69,9 +72,34 @@ export class Room {
     this.roomServer.on('connection', this.onConnection);
   }
 
+  private userList: any[] = [];
+
   private onConnection = (socket: SocketIO.Socket) => {
+    const cookies = cookieParser(socket.handshake.headers.cookie);
+    const userInfo = JSON.parse(decodeURIComponent(cookies[userKey]));
+
+    if (!this.userList.find((item) => item.userId === userInfo.userId)) {
+      this.userList.push(userInfo);
+    }
+
     socket.on('new message', (msg: IMessage) => {
       this.roomServer.emit('new message', Object.assign(msg, {createTime: Date.now()}));
+    });
+
+    socket.on('user_join_room', (user) => {
+      this.roomServer.emit('user_join_room', {userList: this.userList, user});
+    });
+
+    socket.on('disconnect', () => {
+      const idx = this.userList.findIndex((u) => {
+        return u.userId === userInfo.userId;
+      });
+
+      if (idx !== -1) {
+        this.userList.splice(idx, 1);
+      }
+
+      this.roomServer.emit('user_join_room', {userList: this.userList});
     });
   }
 }

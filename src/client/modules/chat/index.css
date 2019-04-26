@@ -196,6 +196,9 @@
           padding: 9px 13px;
           line-height: 1.6;
           word-break: break-word;
+          img {
+            float: initial;
+          }
         }
 
         &::before {
