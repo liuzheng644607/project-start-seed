@@ -20,7 +20,7 @@ export default class EmojiItem extends React.Component<{
 
   render() {
     const { popoverShow } = this.state;
-    const { onSelect, gif } = this.props;
+    const { onSelect, gif, src } = this.props;
     return (
       <Popover
         isOpen={popoverShow}
@@ -38,10 +38,10 @@ export default class EmojiItem extends React.Component<{
       >
         <li
           onClick={() => onSelect && onSelect(gif)}
-          // onMouseEnter={() => this.toggleShow()}
+          // onMouseEnter={() => this.toggleShow(true)}
           onMouseLeave={() => this.toggleShow(false)}
         >
-          <img src={gif} alt="" />
+          <img src={src} alt="" />
         </li>
       </Popover>
     );

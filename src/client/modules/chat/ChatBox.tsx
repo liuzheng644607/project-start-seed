@@ -38,11 +38,11 @@ export default class extends React.Component<IProps, IState> {
   refContainer: HTMLDivElement | null = null;
 
   componentDidMount() {
-    document.addEventListener('keyup', this.enter);
+    document.addEventListener('keydown', this.enter);
   }
 
   componentWillMount() {
-    document.removeEventListener('keyup', this.enter);
+    document.removeEventListener('keydown', this.enter);
   }
 
   enter = (event: KeyboardEvent) => {
@@ -50,6 +50,7 @@ export default class extends React.Component<IProps, IState> {
       if (event.shiftKey) {
         return;
       }
+      event.preventDefault();
       this.sendMessage();
     }
   }
