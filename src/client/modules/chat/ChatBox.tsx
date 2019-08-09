@@ -7,6 +7,8 @@ import EmojiBox from './Emoji/Emoji';
 import * as styles from './index.css';
 import ChatStore from './store';
 
+new Array(7).fill(1).forEach((_, idx) => require(`@assets/group/img${idx + 1}.png`));
+
 interface IProps {}
 interface IState {
   emojiShow: boolean;
@@ -121,7 +123,7 @@ export default class extends React.Component<IProps, IState> {
                   onClick={() => ChatStore.chooseRoom(room)}
                 >
                   <div styleName="avatar">
-                    <img src={room.avatar} alt={room.name} />
+                    <img src={require(`@assets/group/img${room.avatar}.png`)} alt={room.name} />
                   </div>
                   <div className="info">
                     <h3 styleName="nickname">{room.name}</h3>
@@ -135,7 +137,7 @@ export default class extends React.Component<IProps, IState> {
           <div styleName="chat-area">
             <div styleName="head">
               <div styleName="title-wrap">
-                <img src={activeRoom && activeRoom.avatar || ''} />
+                <img src={activeRoom && require(`@assets/group/img${activeRoom.avatar}.png`) || ''} />
                 <span>{(activeRoom && activeRoom.name) || '未选择'}</span>
               </div>
             </div>

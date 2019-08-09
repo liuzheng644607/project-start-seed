@@ -12,13 +12,13 @@ interface IMessage {
 // tslint:disable:max-line-length
 
 const roomList = [
-  {id: 0, name: 'React', avatar: '//upload-images.jianshu.io/upload_images/188895-3f031917c4d3e6e5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240'},
-  {id: 1, name: 'Angular', avatar: '//upload-images.jianshu.io/upload_images/188895-fcc2f21344d23c5d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240'},
-  {id: 2, name: 'Vue', avatar: '//upload-images.jianshu.io/upload_images/188895-9bd7f17687e06297.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240'},
-  {id: 3, name: 'Mobx', avatar: '//upload-images.jianshu.io/upload_images/188895-7ec02d155b0f1da9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240'},
-  {id: 4, name: 'Axios', avatar: '//upload-images.jianshu.io/upload_images/188895-1c4ee37d26f9905f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240'},
-  {id: 5, name: 'Java', avatar: '//upload-images.jianshu.io/upload_images/188895-28b511d42c96d3fd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240'},
-  {id: 6, name: 'Javascript', avatar: '//upload-images.jianshu.io/upload_images/188895-c03a472f50f00888.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240'},
+  {id: 0, name: 'React', avatar: 1},
+  {id: 1, name: 'Angular', avatar: 2},
+  {id: 2, name: 'Vue', avatar: 3},
+  {id: 3, name: 'Mobx', avatar: 4},
+  {id: 4, name: 'Axios', avatar: 5},
+  {id: 5, name: 'Java', avatar: 6},
+  {id: 6, name: 'Javascript', avatar: 7},
 ];
 
 const userKey = 'localUserInfo';
