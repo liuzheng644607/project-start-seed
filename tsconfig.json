@@ -5,6 +5,7 @@
     "emitDecoratorMetadata": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "allowSyntheticDefaultImports": true,
     "strict": true,
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,

@@ -34,7 +34,7 @@ export function route(url: string | string[],
      * 装饰类
      */
     if (typeof target === 'function' && name === undefined  && descriptor === undefined) {
-      assert(!method, '@route 装饰Class时，不能有method 参数' );
+      assert(!(typeof method === 'string'), '@route 装饰Class时，不能有method 参数' );
 
       /**
        * 我们将router绑定在 原型上，方便访问
