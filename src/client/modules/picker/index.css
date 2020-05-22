@@ -1,0 +1,189 @@
+:root {
+  /* picker item 高度 */
+  --item-height: 45px;
+
+  /* 可视区域行数 */
+  --item-count: 5;
+
+  --border: {
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: 0.5px; /* no */
+    width: 100%;
+    height: 0;
+    content: '.';
+    color: transparent;
+    transform: scaleY(0.5);
+    transform-origin: 0 0;
+  }
+}
+
+.mc-picker,
+.mc-picker.mc-modal {
+  left: 0;
+  bottom: 0;
+  top: auto;
+  width: 100%;
+  transform: none;
+  border-radius: 0;
+
+  .picker-main {
+    display: flex;
+    flex-flow: row;
+    height: calc(var(--item-height) * var(--item-count)); /* no */
+    position: relative;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+
+
+  .scroll-wrapper {
+    flex: 1;
+    display: flex;
+    flex-flow: column;
+    text-align: center;
+  }
+
+  .picker-scroll-header {
+    text-align: center;
+    display: flex;
+  }
+
+  .scroll-column-header {
+    flex: 1;
+    padding: 20px 0 10px;
+  }
+
+  .scroll-container {
+    flex: 1;
+    overflow: hidden;
+    text-align: center;
+    position: relative;
+
+    .item {
+      height: calc(var(--item-height)); /* no */
+      color: #333;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      transition: all 0.2s;
+      font-size: 16px; /* no */
+    }
+  }
+
+  .scroll-wrap {
+    flex: 1;
+    position: relative;
+  }
+
+  .picker-center-ul {
+    position: absolute;
+    top: calc(var(--item-height) * calc((var(--item-count) - 1) / 2)); /* no */
+    bottom: calc(var(--item-height) * calc((var(--item-count) - 1) / 2)); /* no */
+    height: var(--item-height); /* no */
+    overflow: hidden;
+    left: 0;
+    right: 0;
+    pointer-events: none;
+    background-color: #fff;
+    li {
+      list-style: none;
+      line-height: var(--item-height); /* no */
+      overflow: visible;
+      text-align: center;
+      height: var(--item-height); /* no */
+      font-weight: 500;
+      font-size: 20px; /* no */
+    }
+  }
+
+  .scroll-container > ul {
+    
+
+    > li {
+      line-height: calc(var(--item-height)); /* no */
+    }
+  }
+
+  .picker-mask {
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: calc(var(--item-height) * calc((var(--item-count) - 1) / 2)); /* no */
+    pointer-events: none;
+    overflow: hidden;
+
+    &-top {
+      top: 0;
+      /* stylelint-disable declaration-colon-newline-after */
+      background: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        from(hsla(0, 0%, 100%, 0.5)),
+        to(hsla(0, 0%, 100%, 0.5))
+      );
+    }
+
+    &-bottom {
+      bottom: 0;
+      background: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        from(hsla(0, 0%, 100%, 0.5)),
+        to(hsla(0, 0%, 100%, 0.5))
+      );
+    }
+  }
+
+  .picker-highlight {
+    position: absolute;
+    left: 0;
+    top: calc(var(--item-height)); /* no */
+    width: 100%;
+    line-height: calc(var(--item-height)); /* no */
+    height: calc(var(--item-height)); /* no */
+    font-weight: 500;
+    font-size: 20; /* no */
+    pointer-events: none;
+    & > span {
+      flex: 1;
+    }
+  }
+
+  .picker-inner-wrap {
+    padding: 15px;
+  }
+
+  .picker-header {
+    /* display: flex;
+    justify-content: space-between; */
+    .mc-button {
+      line-height: initial;
+    }
+  }
+
+  .picker-footer {
+    position: relative;
+    color: #fe8c00;
+    text-align: center;
+    padding: 17px;
+
+    &::before {
+      @apply --border;
+
+      top: 0;
+      height: 0;
+      border-top: 1px solid #ddd; /* no */
+    }
+  }
+}
+
+.mc-multi-picker {
+  display: flex;
+}

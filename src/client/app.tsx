@@ -14,6 +14,7 @@ function App() {
       <Route path="/" exact component={Home} />
       <Route path="/chat-room" component={ChatRoom} />
       <Route path="/remote" component={RemoteZoom} />
+      <Route path="/picker" component={require('./modules/picker').default} />
     </Router>
   );
 }
