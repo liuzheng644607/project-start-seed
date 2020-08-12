@@ -29,7 +29,8 @@ export class ChatRoom {
 
   constructor(
     public httpServer: Server,
-    public socketServer: SocketIO.Server = SocketIo(httpServer)
+    // tslint:disable-next-line:no-any
+    public socketServer: SocketIO.Server = SocketIo(httpServer as any)
   ) {
     socketServer.of('/chat-room').on('connection', (socket) => {
       socket.emit('room list', roomList);

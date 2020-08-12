@@ -70,7 +70,7 @@ module.exports = {
       },
       {
         test: /\.(png|jpg|jpeg|gif)$/,
-        use: [`url-loader?limit=1024&name=assets/images/[name]_[hash:8].[ext]`],
+        use: [`url-loader?limit=1&name=assets/images/[name]_[hash:8].[ext]`],
       },
       {
         test: /\.svg$/,

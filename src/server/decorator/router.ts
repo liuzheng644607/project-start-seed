@@ -15,7 +15,7 @@ export enum RequestMethod {
 }
 
 // tslint:disable-next-line:no-any
-const methodList = Object.keys(RequestMethod).map((k: any) => RequestMethod[k]);
+const methodList = Object.keys(RequestMethod).map((k: any) => (RequestMethod as any)[k]);
 
 type Method = 'get' | 'post' | 'put' | 'delete' | 'all' | 'head' | 'patch';
 

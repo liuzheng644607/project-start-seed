@@ -41,7 +41,7 @@ module.exports = merge(baseWebpackConfig, {
             minimize: true,
             localIdentName: '[local]_[hash:base64:5]',
             handleNotFoundStyleName: 'ignore',
-            exclude: /node_modules|antd\.css|picker/,
+            exclude: /node_modules|antd\.css/,
           }
         },
         'postcss-loader'
