@@ -21,13 +21,13 @@ export default class {
       'Cache-Control': 'no-cache',
       'Connection': 'keep-alive'
     });
-    const stream = new PassThrough();
+    const passThroughStream = new PassThrough();
     let timer: NodeJS.Timeout | null = null;
     const sendData = (data: Object, event?: string) => {
       if (event) {
-        stream.write(`event: ${event}\n`);
+        passThroughStream.write(`event: ${event}\n`);
       }
-      stream.write(`data: ${JSON.stringify(data)}\n\n`);
+      passThroughStream.write(`data: ${JSON.stringify(data)}\n\n`);
     };
 
     const finish = () => {
@@ -37,9 +37,9 @@ export default class {
       }
     };
 
-    ctx.body = stream;
+    ctx.body = passThroughStream;
 
-    stream.write(': open stream\n\n');
+    // stream.write(': open stream\n\n');
     ctx.req
       .on('close', finish)
       .on('finish', finish)
