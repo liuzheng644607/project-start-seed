@@ -2,7 +2,7 @@ import { EventEmitter } from 'events';
 import { Cell, Color } from './Cell';
 import { isWin } from './judge';
 
-type EventName = 'placing-piece-done';
+type EventName = 'placing-piece-done' | 'win';
 
 export class GoBang extends EventEmitter {
   public static readonly gridSize: number = 50;
