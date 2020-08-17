@@ -8,11 +8,31 @@ export class GoBang extends EventEmitter {
   public static readonly gridSize: number = 50;
   public readonly context: CanvasRenderingContext2D;
   public readonly boardWidth: number;
+  /**
+   * 边距
+   */
   public readonly margin: number = 10;
+  /**
+   * 格子大小
+   */
   public readonly gridSize: number = GoBang.gridSize;
-  public readonly grids: Cell[] = [];
+  public grids: Cell[] = [];
+  /**
+   * canvas
+   */
   public readonly canvas: HTMLCanvasElement;
+  /**
+   * 棋盘大小，横向有多少个格子
+   */
   public readonly boardSize: number;
+  /**
+   * 棋子边距
+   */
+  private readonly pointPadding: number = 4;
+  /**
+   * 半径
+   */
+  private readonly pointRadius: number = (this.gridSize / 2) - this.pointPadding;
 
   constructor(
     canvas: HTMLCanvasElement,
@@ -25,7 +45,21 @@ export class GoBang extends EventEmitter {
     this.boardSize = boardSize;
     this.boardWidth = boardSize * this.gridSize;
     this.margin = margin;
+    this.initBoard();
     this.initGrid();
+  }
+
+  initBoard = () => {
+    const { boardSize, canvas, context, margin } = this;
+    const size = boardSize * GoBang.gridSize + margin * 2;
+    const setScale = (d: number) => {
+      canvas.style.width = size + 'px';
+      canvas.style.height = size + 'px';
+      canvas.height = size * d;
+      canvas.width = size * d;
+      context.scale(d , d);
+    };
+    window.devicePixelRatio ? setScale(window.devicePixelRatio) : setScale(1);
   }
 
   // tslint:disable-next-line:no-any
@@ -39,6 +73,8 @@ export class GoBang extends EventEmitter {
    */
   initGrid = () => {
     const { boardWidth, margin, gridSize } = this;
+    let index = 0;
+    this.grids = [];
     for (let y = 0; y <= boardWidth; y += gridSize) {
       for (let x = 0; x <= boardWidth; x += gridSize) {
         // 不能超过边界
@@ -50,7 +86,9 @@ export class GoBang extends EventEmitter {
           y + margin,
           gridSize,
           gridSize,
+          index
         ));
+        index++;
       }
     }
   }
@@ -98,6 +136,21 @@ export class GoBang extends EventEmitter {
     this.drawLine();
   }
 
+  clear = () => {
+    const context = this.context;
+    const { boardWidth, margin } = this;
+    context.beginPath();
+    context.clearRect( 0, 0, boardWidth + margin * 2, boardWidth + margin * 2);
+    context.closePath();
+  }
+
+  reset = () => {
+    this.initGrid();
+    this.clear();
+    this.fillCellColor();
+    this.drawLine();
+  }
+
   /**
    * 根据canvas坐标找到相关棋格
    * @param x 横坐标
@@ -117,20 +170,57 @@ export class GoBang extends EventEmitter {
    * @param color 颜色
    */
   addPoint = (x: number, y: number, color?: Color) => {
-    const context = this.context;
     const grid = this.findGridByPoint(x, y);
-    const padding = 2;
-    const radius = (this.gridSize / 2) - padding;
     if (!grid || grid.filled) {
       return;
     }
     grid.filled = true;
     grid.color = color;
+    this.drawPoint(grid, color === Color?.white ? '#fff' : '#000');
+    this.emit('placing-piece-done');
+    this.isWin(grid);
+  }
+
+  drawPoint = (grid: Cell, color?: string) => {
+    const context = this.context;
+    const padding = this.pointPadding;
+    const radius = this.pointRadius;
     context.beginPath();
     context.arc(grid.x + radius + padding, grid.y + radius + padding, radius, 0, Math.PI * 2, true);
-    context.fillStyle = color === Color?.white ? '#fff' : '#000';
-    context.fill();
     context.closePath();
-    this.emit('placing-piece-done');
+    // 渐变
+    const gradient = context.createRadialGradient(
+      grid.x + radius + padding, grid.y + radius + padding,
+      radius,
+      grid.x + radius + padding, grid.y + radius + padding,
+      0
+      );
+    if (color === '#fff') {
+      gradient.addColorStop(0, '#d1d1d1');
+      gradient.addColorStop(1, '#f9f9f9');
+    } else {
+      gradient.addColorStop(0, '#0a0a0a');
+      gradient.addColorStop(1, '#636766');
+    }
+    context.fillStyle = gradient;
+    context.fill();
+  }
+
+  genPoint = () => {
+
+  }
+
+  highlightPoint = (grid: Cell) => {
+    this.drawPoint(grid, 'red');
+  }
+
+  isWin = (grid: Cell) => {
+    if (!grid.filled) {
+      return false;
+    }
+    const { win, winGrids } = isWin(grid, this) || {};
+    if (win) {
+      this.emit('win', grid, winGrids);
+    }
   }
 }

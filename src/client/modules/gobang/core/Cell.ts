@@ -4,10 +4,11 @@ export enum Color {
 }
 
 export class Cell {
-  public x: number;
-  public y: number;
-  public width: number;
-  public height: number;
+  public readonly x: number;
+  public readonly y: number;
+  public readonly width: number;
+  public readonly height: number;
+  public readonly index: number;
   /**
    * 已落棋子颜色
    */
@@ -17,10 +18,11 @@ export class Cell {
    */
   public filled: boolean = false;
 
-  constructor(x: number, y: number, w: number, h: number) {
+  constructor(x: number, y: number, w: number, h: number, index: number) {
     this.x = x;
     this.y = y;
     this.width = w;
     this.height = h;
+    this.index = index;
   }
 }

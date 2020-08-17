@@ -1,78 +1,127 @@
 import { Cell } from './Cell';
+import { GoBang } from './GoBang';
 
-export function isWin(board: Cell[][], x: number, y: number, chess?: number) {
-  let i = x;
-  let j = y;
-  let count = 0;
-  /*计算水平方向连续棋子个数*/
-  while (i > -1 && board[i][j].color === chess) {
-    i--;
-    count++; // 累加左侧
-  }
-  i = x + 1;
-  while (i < 15 && board[i][j].color === chess) {
-    i++;
-    count++; // 累加右侧
+export function isWin(grid: Cell, gobang: GoBang) {
+  if (!grid.filled) {
+    return;
   }
 
-  if (count >= 5) {
-    return true; // 获胜
+  /**
+   * 横向
+   */
+  const currentGridIndex = grid.index;
+  const { boardSize, grids } = gobang;
+  // 在第几列，从 0 列开始
+  const colIndex = (currentGridIndex) % boardSize;
+  // 在第几行，从 0 行开始
+  const rowIndex = Math.floor(currentGridIndex / boardSize);
+  const startColIndex = currentGridIndex - colIndex;
+  const endColIndex = startColIndex + boardSize - 1;
+  let winGrids: Cell[] = [];
+  let count = 5;
+  /**
+   * 横线赢法
+   */
+  if (count !== 0) {
+    for (let index = currentGridIndex; index <= endColIndex; index++) {
+      const element = grids[index];
+      if (count > 0 && element.color === grid.color) {
+        winGrids.push(element);
+        count--;
+      }
+    }
+    for (let index = currentGridIndex - 1; index >= startColIndex; index--) {
+      const element = grids[index];
+      if (count > 0 && element.color === grid.color) {
+        winGrids.push(element);
+        count--;
+      }
+    }
   }
 
-  /*计算竖直方向连续棋子个数*/
-  i = x;
-  count = 0;
-  while (j > -1 && board[i][j].color === chess) {
-    j--;
-    count++; // 累加上方
-  }
-  j = y + 1;
-  while (j < 15 && board[i][j].color === chess) {
-    j++;
-    count++; // 累加下方
-  }
-  if (count >= 5) {
-    return true;
-  }
-
-  /*计算左上右下方向连续棋子个数*/
-  j = y;
-  count = 0;
-  while (i > -1 && j > -1 && board[i][j].color === chess) {
-    i--;
-    j--;
-    count++; // 累加左上
-  }
-  i = x + 1;
-  j = y + 1;
-  while (i < 15 && j < 15 && board[i][j].color === chess) {
-    i++;
-    j++;
-    count++; // 累加右下
-  }
-  if (count >= 5) {
-    return true;
+  /**
+   * 竖线赢法
+   */
+  if (count !== 0) {
+    count = 5;
+    winGrids = [];
+    for (let index = currentGridIndex; Math.floor(index / boardSize) >= 0; index -= boardSize) {
+      const element = grids[index];
+      if (count > 0 && element.color === grid.color) {
+        winGrids.push(element);
+        count--;
+      }
+    }
+    for (
+      let index = currentGridIndex + boardSize;
+      Math.floor(index / boardSize) < boardSize;
+      index += boardSize
+      ) {
+      const element = grids[index];
+      if (count > 0 && element.color === grid.color) {
+        winGrids.push(element);
+        count--;
+      }
+    }
   }
 
-  /*计算右上左下方向连续棋子个数*/
-  i = x;
-  j = y;
-  count = 0;
-  while (i < 15 && j > -1 && board[i][j].color === chess) {
-    i++;
-    j--;
-    count++; // 累加右上
-  }
-  i = x - 1;
-  j = y + 1;
-  while (i > -1 && j < 15 && board[i][j].color === chess) {
-    i--;
-    j++;
-    count++; // 累加左下
-  }
-  if (count >= 5) {
-    return true;
+  /**
+   * 右斜
+   */
+  if (count !== 0) {
+    count = 5;
+    winGrids = [];
+    for (let r = rowIndex, c = colIndex; r >= 0 && c < boardSize; r--, c++) {
+      const index = r * boardSize + c;
+      const element = grids[index];
+      if (count > 0 && element.color === grid.color) {
+        winGrids.push(element);
+        count--;
+      }
+    }
+    for (let r = rowIndex + 1, c = colIndex - 1; c >= 0 && r < boardSize; r++, c--) {
+      const index = r * boardSize + c;
+      const element = grids[index];
+      if (count > 0 && element.color === grid.color) {
+        winGrids.push(element);
+        count--;
+      }
+    }
   }
 
-  return false;
+  /**
+   * 左斜
+   */
+  if (count !== 0) {
+    count = 5;
+    winGrids = [];
+    for (let r = rowIndex, c = colIndex; r >= 0 && c >= 0; r--, c--) {
+      const index = r * boardSize + c;
+      const element = grids[index];
+      if (count > 0 && element.color === grid.color) {
+        winGrids.push(element);
+        count--;
+      }
+    }
+    for (let r = rowIndex + 1, c = colIndex + 1; c < boardSize && r < boardSize; r++, c++) {
+      const index = r * boardSize + c;
+      const element = grids[index];
+      if (count > 0 && element.color === grid.color) {
+        winGrids.push(element);
+        count--;
+      }
+    }
+  }
+
+  if (count === 0) {
+    console.log('win', winGrids);
+    winGrids.forEach((c) => {
+      // highlightPoint(c);
+    });
+
+    return {
+      win: count === 0,
+      winGrids,
+    };
+  }
 }

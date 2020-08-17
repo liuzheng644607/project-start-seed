@@ -32,6 +32,12 @@ export default class extends React.Component<Props> {
     const { boardSize, margin } = this.props;
     this.gobang = new GoBang(this.canvas, boardSize, margin);
     this.gobang.draw();
+    this.gobang.once('win', (g, s) => {
+      window.setTimeout(() => {
+        this.gobang?.reset();
+        alert('赢了');
+      });
+    });
   }
 
   canvasClick = (e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
@@ -53,16 +59,12 @@ export default class extends React.Component<Props> {
   }
 
   render() {
-    const { boardSize, margin } = this.props;
-    const size = boardSize * GoBang.gridSize + margin * 2;
     return (
       <>
         <canvas
           ref={(c) => {
             this.refCanvas = c;
           }}
-          width={size}
-          height={size}
           onClick={this.canvasClick}
           onMouseMove={this.mouseMove}
         />
