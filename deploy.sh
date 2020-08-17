@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+set -e
+
 PACKNAME=pack.zip
 APP_DIR=/var/apps/com.draw.lyan
 ZIP_TMP=/var/apps/tmpzip
