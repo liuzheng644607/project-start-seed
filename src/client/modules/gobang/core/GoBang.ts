@@ -45,8 +45,7 @@ export class GoBang extends EventEmitter {
     this.boardSize = boardSize;
     this.boardWidth = boardSize * this.gridSize;
     this.margin = margin;
-    this.initBoard();
-    this.initGrid();
+    this.init();
   }
 
   initBoard = () => {
@@ -81,59 +80,38 @@ export class GoBang extends EventEmitter {
         if (margin + x >= boardWidth || y + margin >= boardWidth) {
           break;
         }
-        this.grids.push(new Cell(
+        const cell = new Cell(
           x + margin,
           y + margin,
           gridSize,
           gridSize,
           index
-        ));
+        );
+        this.grids.push(cell);
+        this.drawCell(cell, index);
         index++;
       }
     }
   }
 
-  /**
-   * 绘制棋盘格
-   */
-  fillCellColor = () => {
+  drawCell = (c: Cell, i: number) => {
     const context = this.context;
     const highlightColor = '#62d2a2';
     const normalColor = '#1fab89';
-    this.grids.forEach((c, i) => {
-      if (i % 2 === 0) {
-        context.fillStyle = normalColor;
-      } else {
-        context.fillStyle = highlightColor;
-      }
-      context.fillRect(c.x, c.y, c.width, c.height);
-    });
-  }
-
-  /**
-   * 绘制棋盘线
-   */
-  drawLine = () => {
-    const context = this.context;
-    const { boardWidth, margin, gridSize } = this;
-    for (let x = 0; x <= boardWidth; x += gridSize) {
-      context.moveTo(0.5 + x + margin, margin);
-      context.lineTo(0.5 + x + margin, boardWidth + margin);
-    }
-    for (let x = 0; x <= boardWidth; x += gridSize) {
-      context.moveTo(margin, 0.5 + x + margin);
-      context.lineTo(boardWidth + margin, 0.5 + x + margin);
+    if (i % 2 === 0) {
+      context.fillStyle = normalColor;
+    } else {
+      context.fillStyle = highlightColor;
     }
     context.strokeStyle = '#d7fbe8';
-    context.stroke();
+    context.lineWidth = 1;
+    context.strokeRect(c.x, c.y, c.width, c.height);
+    context.fillRect(c.x, c.y, c.width, c.height);
   }
 
-  /**
-   * 绘制场景
-   */
-  draw = () => {
-    this.fillCellColor();
-    this.drawLine();
+  init = () => {
+    this.initBoard();
+    this.initGrid();
   }
 
   clear = () => {
@@ -145,10 +123,8 @@ export class GoBang extends EventEmitter {
   }
 
   reset = () => {
-    this.initGrid();
     this.clear();
-    this.fillCellColor();
-    this.drawLine();
+    this.initGrid();
   }
 
   /**

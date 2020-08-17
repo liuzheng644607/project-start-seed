@@ -31,7 +31,7 @@ export default class extends React.Component<Props> {
   init = () => {
     const { boardSize, margin } = this.props;
     this.gobang = new GoBang(this.canvas, boardSize, margin);
-    this.gobang.draw();
+    this.gobang.init();
     this.gobang.on('win', (g, s) => {
       window.setTimeout(() => {
         this.gobang?.reset();
