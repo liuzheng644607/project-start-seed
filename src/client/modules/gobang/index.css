@@ -1,6 +1,10 @@
+body {
+  background-color: #1fab89;
+}
 .gobang-contanier {
   margin: 0 auto;
   display: flex;
   justify-content: center;
+  overflow: hidden;
   background-color: #1fab89;
 }

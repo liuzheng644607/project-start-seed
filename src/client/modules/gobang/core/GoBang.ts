@@ -6,8 +6,6 @@ type EventName = 'placing-piece-done' | 'win';
 
 export class GoBang extends EventEmitter {
   public static readonly gridSize: number = 50;
-  public readonly context: CanvasRenderingContext2D;
-  public readonly boardWidth: number;
   /**
    * 边距
    */
@@ -16,6 +14,8 @@ export class GoBang extends EventEmitter {
    * 格子大小
    */
   public readonly gridSize: number = GoBang.gridSize;
+  public readonly context: CanvasRenderingContext2D;
+  public readonly boardWidth: number;
   public grids: Cell[] = [];
   /**
    * canvas
@@ -92,6 +92,8 @@ export class GoBang extends EventEmitter {
         index++;
       }
     }
+
+    this.context.save();
   }
 
   drawCell = (c: Cell, i: number) => {

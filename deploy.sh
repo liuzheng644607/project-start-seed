@@ -6,15 +6,14 @@ APP_DIR=/var/apps/com.draw.lyan
 ZIP_TMP=/var/apps/tmpzip
 
 # 本地先编译好
-npm run build:client
+# npm run build:client
 
 zip -r $PACKNAME ./ -x "./node_modules/*" -x ".DS_Store" -x ".git/*" > /dev/null 2>&1
 
-scp -r -P 29687 $PACKNAME root@draw.lyan.me:$ZIP_TMP
+scp -i ~/Documents/github/draw.lyan.me.pem -r $PACKNAME root@draw.lyan.me:$ZIP_TMP
 
 rm -rf $PACKNAME
-
-ssh -tt root@draw.lyan.me -p 29687 << eeooff
+ssh -tt -i ~/Documents/github/draw.lyan.me.pem root@draw.lyan.me << eeooff
 
 PACKNAME=pack.zip
 APP_DIR=/var/apps/com.draw.lyan
@@ -32,7 +31,7 @@ cd test
 
 npm i
 
-# npm run build:client
+npm run build:client
 npm run build:server
 
 

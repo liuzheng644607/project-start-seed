@@ -8,7 +8,7 @@ export default class extends React.Component {
   render() {
     return (
       <div styleName="gobang-contanier">
-        <Board boardSize={15} margin={20} />
+        <Board boardSize={15} margin={10} />
       </div>
     );
   }
