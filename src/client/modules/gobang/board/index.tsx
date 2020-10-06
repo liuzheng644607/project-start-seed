@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { GoBang } from '../core/GoBang';
-import { Room } from '../core/Room';
 
 interface Props {
   /**
@@ -17,8 +16,6 @@ export default class extends React.Component<Props> {
   refCanvas: HTMLCanvasElement | null = null;
 
   gobang?: GoBang;
-
-  room = new Room();
 
   get canvas() {
     return this.refCanvas as HTMLCanvasElement;
@@ -58,6 +55,10 @@ export default class extends React.Component<Props> {
     this.canvas.style.cursor = grid?.filled ? 'not-allowed' : '';
   }
 
+  regretChess = () => {
+
+  }
+
   render() {
     return (
       <>
@@ -68,6 +69,9 @@ export default class extends React.Component<Props> {
           onClick={this.canvasClick}
           onMouseMove={this.mouseMove}
         />
+        <div>
+          <button onClick={this.regretChess}>悔棋</button>
+        </div>
       </>
     );
   }
