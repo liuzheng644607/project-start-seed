@@ -1,4 +1,5 @@
 {
+  "include": ["./src/typings"],
   "compilerOptions": {
     "moduleResolution": "node",
     "experimentalDecorators": true,

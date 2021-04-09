@@ -17,6 +17,7 @@ function App() {
       <Route path="/picker" component={require('./modules/picker').default} />
       <Route path="/gobang" component={require('./modules/gobang').default} />
       <Route path="/gobang/:roomId" component={require('./modules/gobang').default} />
+      <Route path="/avatart-gen" component={require('./modules/avatarGen').default} />
     </Router>
   );
 }

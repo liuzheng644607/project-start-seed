@@ -39,15 +39,13 @@ export interface IBasePickerState {}
 
 export interface IBasePickerListItem {
   label: React.ReactNode;
-  value: string;
+  value: string | number;
   children?: IBasePickerListItem[];
-
   // tslint:disable-next-line:no-any
   [key: string]: any;
 }
 
 const SCROLL_TIME = 200;
-
 
 @CSSModules(styles)
 export class BasePicker extends Component<IBasePickerProps, IBasePickerState> {

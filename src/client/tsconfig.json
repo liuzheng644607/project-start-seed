@@ -6,7 +6,8 @@
     "jsx": "react",
     "sourceMap": true,
     "paths": {
-      "@utils/*": ["./src/client/utils/*"]
+      "@utils/*": ["./src/client/utils/*"],
+      "@net": ["./src/client/net"]
     },
   },
   "include": ["."]
