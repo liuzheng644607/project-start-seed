@@ -17,6 +17,7 @@ export class GoBang extends EventEmitter {
   public readonly context: CanvasRenderingContext2D;
   public readonly boardWidth: number;
   public grids: Cell[] = [];
+  public point: Cell[] = [];
   /**
    * canvas
    */
@@ -88,7 +89,6 @@ export class GoBang extends EventEmitter {
           index
         );
         this.grids.push(cell);
-        this.drawCell(cell, index);
         index++;
       }
     }
@@ -114,6 +114,7 @@ export class GoBang extends EventEmitter {
   init = () => {
     this.initBoard();
     this.initGrid();
+    this.update();
   }
 
   clear = () => {
@@ -126,7 +127,11 @@ export class GoBang extends EventEmitter {
 
   reset = () => {
     this.clear();
-    this.initGrid();
+    this.grids.forEach((g) => {
+      g.reset();
+    });
+    this.point = [];
+    this.update();
   }
 
   /**
@@ -154,9 +159,27 @@ export class GoBang extends EventEmitter {
     }
     grid.filled = true;
     grid.color = color;
-    this.drawPoint(grid, color === Color?.white ? '#fff' : '#000');
+    this.point.push(grid);
+    this.update();
     this.emit('placing-piece-done');
     this.isWin(grid);
+  }
+
+  drawGrids = () => {
+    this.grids.forEach((grid, index) => {
+      this.drawCell(grid, index);
+    });
+  }
+
+  drawChess = () => {
+    this.point.forEach((p) => {
+      this.drawPoint(p, p.color === Color?.white ? '#fff' : '#000');
+    });
+  }
+
+  update = () => {
+    this.drawGrids();
+    this.drawChess();
   }
 
   drawPoint = (grid: Cell, color?: string) => {
@@ -184,8 +207,10 @@ export class GoBang extends EventEmitter {
     context.fill();
   }
 
-  genPoint = () => {
-
+  remove = () => {
+    const removed = this.point.pop();
+    removed?.reset();
+    this.update();
   }
 
   highlightPoint = (grid: Cell) => {
@@ -198,6 +223,7 @@ export class GoBang extends EventEmitter {
     }
     const { win, winGrids } = isWin(grid, this) || {};
     if (win) {
+      // this.highlightPoint(grid);
       this.emit('win', grid, winGrids);
     }
   }

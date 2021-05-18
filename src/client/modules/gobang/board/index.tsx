@@ -30,6 +30,7 @@ export default class extends React.Component<Props> {
     this.gobang = new GoBang(this.canvas, boardSize, margin);
     this.gobang.init();
     this.gobang.on('win', (g, s) => {
+      // console
       window.setTimeout(() => {
         this.gobang?.reset();
         alert('赢了');
@@ -56,7 +57,7 @@ export default class extends React.Component<Props> {
   }
 
   regretChess = () => {
-
+    this.gobang?.remove();
   }
 
   render() {

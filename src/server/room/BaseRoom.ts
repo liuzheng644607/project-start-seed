@@ -1,6 +1,8 @@
 import { Server } from 'net';
 import * as SocketIo from 'socket.io';
 import cookieParser from '@server/utils/cookie-parse';
+const userKey = 'localUserInfo';
+
 interface IMessage {
   nickName: string;
   userId: string;
@@ -9,54 +11,26 @@ interface IMessage {
   createTime?: number;
 }
 
-// tslint:disable:max-line-length
-
-const roomList = [
-  {id: 0, name: 'React', avatar: 1},
-  {id: 1, name: 'Angular', avatar: 2},
-  {id: 2, name: 'Vue', avatar: 3},
-  {id: 3, name: 'Mobx', avatar: 4},
-  {id: 4, name: 'Axios', avatar: 5},
-  {id: 5, name: 'Java', avatar: 6},
-  {id: 6, name: 'Javascript', avatar: 7},
-];
-
-const userKey = 'localUserInfo';
-
-export class ChatRoom {
-
+export class RoomManager {
   roomPool: Map<number, Room> = new Map();
 
   constructor(
     public httpServer: Server,
     // tslint:disable-next-line:no-any
     public socketServer: SocketIO.Server = SocketIo(httpServer as any)
-  ) {
-    socketServer.of('/chat-room').on('connection', (socket) => {
-      socket.emit('room list', roomList);
-      // socket.on('add user', (userName: string) => {
-
-      // });
-    });
-
-    /**
-     * 自动创建10个房间
-     */
-    roomList.forEach((item) => {
-      this.createRoom(item.id);
-    });
-  }
+  ) {}
 
   /**
    * 创建一个房间
    * @param id
    */
-  createRoom(id: number) {
+   createRoom(id: number) {
     let room = this.roomPool.get(id);
     if (!room) {
       room = new Room(id, this.socketServer);
       this.roomPool.set(id, room);
     }
+
     return room;
   }
 }

@@ -9,11 +9,14 @@ import * as favicon from 'koa-favicon';
 import * as koaStatic from 'koa-static';
 import * as Router from 'koa-router';
 import routes from '@server/route';
+import middlewares from './middleware';
 import getService from '@server/service';
 
 const app = new Koa();
 const isDev = process.env.NODE_ENV === 'development';
 const isProd = process.env.NODE_ENV === 'production';
+
+middlewares(app);
 
 if (isDev) {
   const httpProxyServer = httpProxy.createProxyServer();

@@ -25,4 +25,12 @@ export class Cell {
     this.height = h;
     this.index = index;
   }
+
+  /**
+   * 重置当前格子的状态
+   */
+  reset = () => {
+    this.color = undefined;
+    this.filled = false;
+  }
 }

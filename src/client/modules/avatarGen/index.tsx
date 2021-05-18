@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import * as net from '@net';
+// import * as net from '@net';
 import CSSModules from '@utils/cssmodules';
 
 import * as styles from './index.css';
@@ -16,10 +16,10 @@ export default class extends React.Component<IProps, IState> {
   }
 
   loadData = async () => {
-    const res = await net.getApi('/api/v1/user/info')({
-      id: 1,
-    });
-    console.log(res.data);
+    // const res = await net.getApi('/api/v1/user/info')({
+    //   id: 1,
+    // });
+    // console.log(res.data);
   }
 
   render() {
