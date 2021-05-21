@@ -1,7 +1,10 @@
 import 'module-alias/register';
+process.env.DEBUG = 'true';
+
 import * as config from 'config';
 import app from './app';
-import { ChatRoom, PlayerRoom } from './room';
+import { ChatRoom } from './room';
+import GameCenter from './game';
 
 const port = config.get('port');
 
@@ -12,4 +15,4 @@ const server = app.listen(port, () => {
 // tslint:disable-next-line:no-unused-expression
 new ChatRoom(server);
 // tslint:disable-next-line:no-unused-expression
-new PlayerRoom(server);
+new GameCenter(server);

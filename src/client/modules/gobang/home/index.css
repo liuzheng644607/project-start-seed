@@ -1,0 +1,7 @@
+.gobang-home {
+  padding: 16px;
+
+  .room-content {
+    height: 60px;
+  }
+}

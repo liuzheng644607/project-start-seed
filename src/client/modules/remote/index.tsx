@@ -4,7 +4,7 @@ import CSSModules from '@utils/cssmodules';
 import * as styles from './index.css';
 import { Button } from 'antd';
 import { Icon } from 'antd';
-import store from './store';
+import { RemoteRoomStore } from './store';
 
 const IconFont = Icon.createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/font_276519_ybkj1tj8u8e.js'
@@ -22,9 +22,13 @@ export default class extends React.Component<IProps, IState> {
     showScreenList: false,
   };
 
+  store = new RemoteRoomStore();
+
   render() {
-    const { audioActive, videoActive, currentScreen, remoteAudioMap, remoteScreenMap } = store;
+    const store = this.store;
+    const { audioActive, videoActive, currentScreen, remoteAudioMap, remoteScreenMap } = this.store;
     const { showScreenList } = this.state;
+
     return (
       <div styleName="p-room" onClick={() => this.setState({ showScreenList: false })}>
         <div styleName="main-panel">

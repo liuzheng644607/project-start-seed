@@ -14,9 +14,9 @@ function App() {
       <Route path="/" exact component={Home} />
       <Route path="/chat-room" component={ChatRoom} />
       <Route path="/remote" component={RemoteZoom} />
+      <Route path="/login" component={require('./modules/chat/Welcome').default} />
       <Route path="/picker" component={require('./modules/picker').default} />
       <Route path="/gobang" component={require('./modules/gobang').default} />
-      <Route path="/gobang/:roomId" component={require('./modules/gobang').default} />
       <Route path="/avatart-gen" component={require('./modules/avatarGen').default} />
     </Router>
   );

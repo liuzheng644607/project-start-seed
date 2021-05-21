@@ -7,7 +7,7 @@
   "description": "react+typescript配置项目",
   "main": "index.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development & npm run clean & webpack-dev-server --config ./webpack/webpack.dev.js & npm run build:server -- -w & NODE_ENV=development nodemon -w 'src/server' src/server/index.js",
+    "dev": "cross-env NODE_ENV=development & npm run clean & webpack-dev-server --config ./webpack/webpack.dev.js & npm run build:server -- -w & NODE_ENV=development DEBUG=gameCenter nodemon -w 'src/server' src/server/index.js",
     "start": "cross-env NODE_ENV=production forever start ./src/server/index.js",
     "start:client": "cross-env NODE_ENV=development webpack-dev-server --config ./webpack/webpack.dev.js -w",
     "build:client": "rm -rf static && cross-env NODE_ENV=production webpack --config ./webpack/webpack.prod.js",
@@ -38,6 +38,7 @@
     "config": "^3.0.1",
     "cookie-parser": "^1.4.4",
     "cross-env": "^5.2.0",
+    "debug": "^4.3.1",
     "forever": "^0.15.3",
     "js-cookie": "^2.2.0",
     "koa": "^2.7.0",

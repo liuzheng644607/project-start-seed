@@ -72,5 +72,3 @@ export class RemoteRoomStore {
     this.room.init();
   }
 }
-
-export default new RemoteRoomStore();

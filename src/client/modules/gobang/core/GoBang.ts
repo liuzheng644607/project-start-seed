@@ -161,7 +161,20 @@ export class GoBang extends EventEmitter {
     grid.color = color;
     this.point.push(grid);
     this.update();
-    this.emit('placing-piece-done');
+    this.emit('placing-piece-done', grid);
+    this.isWin(grid);
+  }
+
+  drawIndexChess = (index: number, color: Color) => {
+    const grid = this.grids[index];
+    if (!grid || grid.filled) {
+      return;
+    }
+    grid.filled = true;
+    grid.color = color;
+    this.point.push(grid);
+    this.update();
+    this.emit('placing-piece-done', grid);
     this.isWin(grid);
   }
 

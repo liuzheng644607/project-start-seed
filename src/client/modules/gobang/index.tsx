@@ -1,43 +1,25 @@
 import * as React from 'react';
-import { RouteComponentProps } from 'react-router';
 import * as SocketClient from 'socket.io-client';
-import Board from './board';
-import CSSModules from '@utils/cssmodules';
-import * as styles from './index.css';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { RoomContext } from './context/gobang';
+import Home from './home';
 
-@CSSModules(styles)
-export default class extends React.Component<RouteComponentProps<{
-  roomId: string;
-}>> {
-  socket!: SocketIOClient.Socket;
+export default class extends React.Component {
 
-  initSocket() {
-    const { roomId } = this.props.match.params;
-    if (this.socket || !roomId) {
-      return;
-    }
-    this.socket = SocketClient('/player-room', {
-      query: {
-        roomId,
-      }
-    });
-    this.socket
-      .on('connect', () => {
-      })
-      .on('event', (data: number) => {
-        console.log(data);
-      });
-  }
-
-  componentDidMount() {
-    this.initSocket();
-  }
+  socket = SocketClient();
 
   render() {
     return (
-      <div styleName="gobang-contanier">
-        <Board boardSize={15} margin={10} />
-      </div>
+      <RoomContext.Provider
+        value={{
+          socket: this.socket,
+        }}
+      >
+        <Router>
+          <Route path="/gobang/home" component={Home} />
+          <Route path="/gobang/room/:roomId" component={require('./app').default} />
+        </Router>
+      </RoomContext.Provider>
     );
   }
 }

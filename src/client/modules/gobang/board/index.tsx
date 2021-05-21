@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { GoBang } from '../core/GoBang';
+import { wrapContext, ContextProps } from '../context/gobang';
 
-interface Props {
+interface Props extends ContextProps {
   /**
    * 棋盘大小, 指一行有多少个棋格
    */
@@ -10,12 +11,16 @@ interface Props {
    * 边距
    */
   margin: number;
+
+  roomId: string;
 }
 
-export default class extends React.Component<Props> {
+class Board extends React.Component<Props> {
   refCanvas: HTMLCanvasElement | null = null;
 
   gobang?: GoBang;
+
+  removeEvent?: Function;
 
   get canvas() {
     return this.refCanvas as HTMLCanvasElement;
@@ -23,19 +28,45 @@ export default class extends React.Component<Props> {
 
   componentDidMount() {
     this.init();
+    this.bindEvent();
+  }
+
+  componentWillUnmount() {
+    this.removeEvent?.();
+    this.props.playerService.socket?.emit('leave');
+  }
+
+  onEnemyPieceDone = (data) => {
+    this.gobang?.drawIndexChess(data.index, data.color);
+  }
+
+  onPlacingPieceDone = (grid) => {
+    this.props.playerService.socket?.emit('enemy-piece-done', grid);
+  }
+
+  onWin = (g, s) => {
+    // console
+    window.setTimeout(() => {
+      this.gobang?.reset();
+      alert('赢了');
+    });
+  }
+
+  bindEvent = () => {
+    this.gobang?.on('placing-piece-done', this.onPlacingPieceDone).on('win', this.onWin);
+    this.props.playerService.socket?.on('enemy-piece-done', this.onEnemyPieceDone);
+
+    this.removeEvent = () => {
+      this.gobang?.removeAllListeners();
+      this.props.playerService.socket?.removeListener('enemy-piece-done', this.onEnemyPieceDone);
+    };
   }
 
   init = () => {
     const { boardSize, margin } = this.props;
     this.gobang = new GoBang(this.canvas, boardSize, margin);
     this.gobang.init();
-    this.gobang.on('win', (g, s) => {
-      // console
-      window.setTimeout(() => {
-        this.gobang?.reset();
-        alert('赢了');
-      });
-    });
+    this.props.playerService.socket?.emit('join', this.props.roomId);
   }
 
   canvasClick = (e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
@@ -77,3 +108,5 @@ export default class extends React.Component<Props> {
     );
   }
 }
+
+export default wrapContext(Board);
