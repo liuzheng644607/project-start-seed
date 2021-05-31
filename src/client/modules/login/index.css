@@ -1,3 +1,9 @@
 .login {
-    background-color: aqua;
+    background-color: #006e80;
+}
+
+.page-wrap {
+    body {
+        background: #006e80;
+    }
 }

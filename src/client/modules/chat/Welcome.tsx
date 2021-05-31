@@ -83,7 +83,7 @@ export default class extends React.Component<IProps, IState> {
           <div styleName="confirm-name">
             {nickName ? (
               <a onClick={this.joinRoom} href="javascript:;">
-                进入聊天室
+                确定
               </a>
             ) : null}
           </div>

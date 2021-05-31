@@ -61,6 +61,5 @@ export default class {
     socket.on('enemy-piece-done', (data) => {
       socket.broadcast.emit('enemy-piece-done', data);
     });
-
   }
 }
