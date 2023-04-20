@@ -15,7 +15,7 @@ function App() {
       <Route path="/chat-room" component={ChatRoom} />
       <Route path="/remote" component={RemoteZoom} />
       <Route path="/login" component={require('./modules/login').default} />
-      <Route path="/picker" component={require('./modules/picker').default} />
+      {/* <Route path="/picker" component={require('./modules/picker').default} /> */}
       <Route path="/gobang" component={require('./modules/gobang').default} />
       <Route path="/avatart-gen" component={require('./modules/avatarGen').default} />
     </Router>
