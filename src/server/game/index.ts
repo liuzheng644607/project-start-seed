@@ -23,7 +23,7 @@ export default class {
     try {
       userInfo = JSON.parse(decodeURIComponent(cookies[userKey]));
     } catch {}
-    const { userId, nickName } = userInfo;
+    const { userId, nickName } = userInfo as any;
     const user = new User(userId, nickName);
     const rooms = this.rooms;
     rooms.onRoomsUpdate();

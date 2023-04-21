@@ -4,7 +4,7 @@
     "target": "es2017",
     "module": "commonjs",
     "allowJs": true,
-    "pretty": true,
+    "pretty": true
   },
   "include": [
     ".",
