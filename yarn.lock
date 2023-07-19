@@ -9862,8 +9862,8 @@ winston@0.8.x, winston@~0.8.1:
     stack-trace "0.0.x"
 
 word-wrap@~1.2.3:
-  version "1.2.3"
-  resolved "https://registry.nlark.com/word-wrap/download/word-wrap-1.2.3.tgz#610636f6b1f703891bd34771ccb17fb93b47079c"
+  version "1.2.4"
+  resolved "https://registry.npmmirror.com/word-wrap/-/word-wrap-1.2.4.tgz#cb4b50ec9aca570abd1f52f33cd45b6c61739a9f"
 
 "wordwrap@>=0.0.1 <0.1.0", wordwrap@~0.0.2:
   version "0.0.3"
